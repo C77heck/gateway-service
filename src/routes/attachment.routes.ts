@@ -1,8 +1,8 @@
 import express from 'express';
-import { attachmentHandler } from '../controllers/attachment.controller';
+import { attachmentController } from '../controllers/attachment.controller';
 
 const router = express.Router();
 
-router.all('/*', [], attachmentHandler);
+router.all('/*', [], attachmentController);
 
 export default router;

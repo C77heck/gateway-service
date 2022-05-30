@@ -1,73 +1,32 @@
-import axios from 'axios';
+import axios, { AxiosRequestHeaders, Method } from 'axios';
+
+export interface RepositoryRequest {
+  url?: string;
+  method?: Method | string;
+  baseURL?: string;
+  headers?: AxiosRequestHeaders;
+  params?: any;
+  data?: object;
+}
 
 export class Repository {
-  public port: string;
+  public port?: string;
   public baseUrl = process.env.BASE_URL;
   public appPath: string;
 
   // TODO -> port is there to define which application we are targeting
-  public constructor(port: string) {
+  public constructor(port?: string) {
     this.port = port;
     this.appPath = `${this.baseUrl}${port}`;
   }
 
-  public async get(href: string) {
-    const path = `${this.appPath}/${href}`;
-    return await new Promise((resolve, reject) => {
-      try {
-        const response = (axios as any).get(path, {
-          headers: { 'Accept': 'application/json', },
-          params: {}
-        });
-        resolve(response?.data);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
-  public async post(href: string) {
-    const path = `${this.appPath}/${href}`;
+  public async fetch(requestOptions: RepositoryRequest) {
+    requestOptions.headers = { 'Accept': 'application/json' };
+    requestOptions.baseURL = this.appPath;
 
     return await new Promise((resolve, reject) => {
       try {
-        const response = (axios as any).get(path, {
-          headers: { 'Accept': 'application/json', },
-          params: {}
-        });
-        resolve(response?.data);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
-  public async put(href: string) {
-    const path = `${this.appPath}/${href}`;
-
-    return await new Promise((resolve, reject) => {
-      try {
-        const response = (axios as any).put(path, {
-          headers: { 'Accept': 'application/json', },
-          params: {}
-        });
-        resolve(response?.data);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
-  public async delete(href: string) {
-    const path = `${this.appPath}/${href}`;
-
-    return await new Promise((resolve, reject) => {
-      try {
-        const response = (axios as any).delete(path, {
-          headers: { 'Accept': 'application/json', },
-          params: {}
-        });
-        resolve(response?.data);
+        resolve(axios.request(requestOptions));
       } catch (err) {
         reject(err);
       }
