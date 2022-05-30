@@ -42,22 +42,6 @@ export class Repository {
     });
   }
 
-  public async post(href: string) {
-    const path = `${this.appPath}/${href}`;
-
-    return await new Promise((resolve, reject) => {
-      try {
-        const response = (axios as any).post(path, {
-          headers: { 'Accept': 'application/json', },
-          params: {}
-        });
-        resolve(response?.data);
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
   public async put(href: string) {
     const path = `${this.appPath}/${href}`;
 

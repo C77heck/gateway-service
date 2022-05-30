@@ -1,10 +1,8 @@
 import cors from 'cors';
 import express from 'express';
-import Mongoose from 'mongoose';
 import { setEnvs } from './libs/set-up.environment';
-// eslint-disable-next-line import/extensions
-import apiRouter from './routes/router';
-// Constants
+import router from './routes/router';
+
 const app = express();
 setEnvs();
 
@@ -19,8 +17,8 @@ app.use(express.urlencoded({ extended: true }));
  *                         API routes and error handling
  **********************************************************************************/
 
-// Add api router
-app.use('/api', apiRouter);
+// app.use('/', router.all('/:apiName', (req, res) => console.log(req.params, 'yeah')));
+app.use('/api', router);
 
 /***********************************************************************************
  *                         Server initialisation
