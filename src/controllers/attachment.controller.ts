@@ -3,8 +3,8 @@ import { Repository } from '../libs/api-helper';
 import { ERROR_MESSAGES } from '../libs/constants';
 import { HttpError } from '../models/http.error';
 import { attachmentHandler } from './handlers/attachment.handler';
+import { validate } from './libs/endpoint-validator';
 import { ReqObject } from './libs/req.object';
-import { getIsValid } from './libs/validity-check';
 
 // TODO -> we need to test all the endpoints and see how we could manage them based around predefined requests.
 // we will propably have to deal with the authentication on gateway side for this to work. and allow
@@ -14,12 +14,9 @@ export const attachmentController = async (req: express.Request, res: express.Re
 
   try {
     const { axiosReqOptions, originalUrl, method } = new ReqObject(req);
+    console.log(new ReqObject(req));
+    validate(originalUrl, method, attachmentHandler, res);
 
-    if (getIsValid(originalUrl, method, attachmentHandler)) {
-      res.end();
-    }
-    axiosReqOptions.headers = { 'Content-Type': 'multipart/form-data' };
-    axiosReqOptions.data = { 'Content-Type': 'multipart/form-data' };
     const response: any = await repository.request(axiosReqOptions);
 
     res.send(response.data);

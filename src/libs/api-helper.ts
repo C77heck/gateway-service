@@ -21,7 +21,7 @@ export class Repository {
   }
 
   public async request(requestOptions: RepositoryRequest) {
-    // requestOptions.headers = { 'Accept': '*/*' };
+    requestOptions.headers = { 'Accept': '*/*' };
     requestOptions.baseURL = `${this.appPath}${requestOptions.baseURL}`;
 
     return await new Promise((resolve, reject) => {
