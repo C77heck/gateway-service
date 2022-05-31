@@ -4,22 +4,19 @@ export const attachmentHandler: HandlerInterface[] = [
   {
     url: '/api/attachments',
     method: 'GET',
-    params: {},
-    query: {},
+    params: true,
     authorized: true
   },
   {
     url: '/api/attachments/create',
     method: 'POST',
-    params: {},
-    query: {},
+    params: false,
     authorized: true
   },
   {
     url: '/api/attachments/delete',
     method: 'DELETE',
-    params: {},
-    query: {},
+    params: true,
     authorized: true
   }
 ];
