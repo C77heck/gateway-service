@@ -24,7 +24,8 @@ export const attachmentController = async (req: express.Request, res: express.Re
       port: 3030,
       path: originalUrl,
     }, (messages) => {
-      console.log({ messages });
+      console.log({ messages: messages.statusMessage });
+      // TODO -> ERRORS MUST BE FOUND
     })).on('response', (response) => {
 
       res.writeHead((response as any)?.statusCode || 200, response.headers);
