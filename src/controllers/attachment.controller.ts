@@ -6,22 +6,23 @@ import { attachmentHandler } from './handlers/attachment.handler';
 import { ReqObject } from './libs/req.object';
 import { getIsValid } from './libs/validity-check';
 
-const repository = new Repository(process.env.ATTACHMENT_PORT);
-
 // TODO -> we need to test all the endpoints and see how we could manage them based around predefined requests.
 // we will propably have to deal with the authentication on gateway side for this to work. and allow
 // the underlying api services to function without that constraint.
 export const attachmentController = async (req: express.Request, res: express.Response, next: NextFunction) => {
+  const repository = new Repository(process.env.ATTACHMENT_PORT);
+
   try {
-    const { originalUrl, method, params, query } = new ReqObject(req);
+    const { axiosReqOptions, originalUrl, method } = new ReqObject(req);
 
     if (getIsValid(originalUrl, method, attachmentHandler)) {
-      res.send();
+      res.end();
     }
+    axiosReqOptions.headers = { 'Content-Type': 'multipart/form-data' };
+    axiosReqOptions.data = { 'Content-Type': 'multipart/form-data' };
+    const response: any = await repository.request(axiosReqOptions);
 
-    const response = await repository.fetch({ method, baseURL: originalUrl, params: query });
-    console.log(response);
-    res.end();
+    res.send(response.data);
   } catch (e) {
     return next(new HttpError(ERROR_MESSAGES.GENERIC));
   }

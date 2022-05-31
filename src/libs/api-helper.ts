@@ -20,13 +20,13 @@ export class Repository {
     this.appPath = `${this.baseUrl}${port}`;
   }
 
-  public async fetch(requestOptions: RepositoryRequest) {
-    requestOptions.headers = { 'Accept': 'application/json' };
-    requestOptions.baseURL = this.appPath;
+  public async request(requestOptions: RepositoryRequest) {
+    // requestOptions.headers = { 'Accept': '*/*' };
+    requestOptions.baseURL = `${this.appPath}${requestOptions.baseURL}`;
 
     return await new Promise((resolve, reject) => {
       try {
-        resolve(axios.request(requestOptions));
+        resolve(axios(requestOptions));
       } catch (err) {
         reject(err);
       }

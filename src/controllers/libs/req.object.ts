@@ -1,4 +1,5 @@
 import express from 'express';
+import { RepositoryRequest } from '../../libs/api-helper';
 
 interface ParsedUrl {
   "protocol": string | null,
@@ -24,6 +25,8 @@ export interface ReqObject {
   _parsedUrl: ParsedUrl;
   params: object;
   query: object;
+  axiosReqOptions: RepositoryRequest;
+  data: any;
 }
 
 export class ReqObject implements ReqObject {
@@ -35,5 +38,7 @@ export class ReqObject implements ReqObject {
     this._parsedUrl = (request as any)?._parsedUrl || {};
     this.params = request.params;
     this.query = request.query;
+    this.data = request.body;
+    this.axiosReqOptions = { method: request.method, baseURL: request.originalUrl, params: request.query };
   }
 }
