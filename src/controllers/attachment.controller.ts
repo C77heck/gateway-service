@@ -23,25 +23,15 @@ export const attachmentController = async (req: express.Request, res: express.Re
       host: 'localhost',
       port: 3030,
       path: originalUrl,
-    }, (response) => {
-      console.log({ response });
-    })).on('response', (resi) => console.log('see how to get the response from the api'));
+    }, (messages) => {
+      console.log({ messages });
+    })).on('response', (response) => {
 
-    // res.send(response.data);
+      res.writeHead((response as any)?.statusCode || 200, response.headers);
+
+      response.pipe(res);
+    });
   } catch (e) {
-    console.log(e);
     return next(new HttpError(ERROR_MESSAGES.GENERIC));
   }
 };
-// };
-// (error, response, body) => {
-//   // body is the decompressed response body
-//   // 此处可对返回数据进行处理等
-//   // console.log(body);
-// };
-// ).
-// on('response', response => {
-//   // unmodified http.IncomingMessage object
-//   res.writeHead(response.statusCode, response.headers);
-//   response.pipe(res);
-// });
