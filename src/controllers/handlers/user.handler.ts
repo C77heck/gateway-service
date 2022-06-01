@@ -2,10 +2,16 @@ import { HandlerInterface } from './handler.interface';
 
 export const userHandler: HandlerInterface[] = [
   {
+    url: '/api/users/authenticate',
+    method: 'OPTIONS',
+    params: false,
+    authorized: false
+  },
+  {
     url: '/api/users/login',
     method: 'POST',
     params: false,
-    authorized: false
+    authorized: true // TODO WRONG...
   },
   {
     url: '/api/users/signup',

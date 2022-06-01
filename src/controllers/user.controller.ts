@@ -8,27 +8,26 @@ import { ReqObject } from './libs/req.object';
 
 export const userController = async (req: express.Request, res: express.Response, next: NextFunction) => {
   try {
-    const { originalUrl, method } = new ReqObject(req);
+    const { originalUrl, method, token } = new ReqObject(req);
 
-    validate(originalUrl, method, userHandler, res);
+    const headers = { ...req.headers, 'Content-Type': 'application/json' };
+
+    validate(originalUrl, method, userHandler, res, token);
+
     req.pipe(request({
       method: req.method,
-      headers: req.headers,
+      headers: headers,
       host: 'localhost',
       port: 3033,
       path: originalUrl,
     }))
-      .on('error', (error) => console.log('error'))
-      .on('finish', () => console.log('finish'))
       .on('response', (response) => {
-        console.log('we are hitting it');
         res.writeHead((response as any)?.statusCode || 200, response.headers);
 
         response.pipe(res);
       });
 
   } catch (e) {
-    console.log(e);
     return next(new HttpError(ERROR_MESSAGES.GENERIC));
   }
 };

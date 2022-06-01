@@ -27,11 +27,13 @@ export interface ReqObject {
   query: object;
   axiosReqOptions: RepositoryRequest;
   data: any;
+  token: string | undefined;
 }
 
 export class ReqObject implements ReqObject {
   public constructor(request: express.Request) {
     this.url = request.url;
+    this.token = (request as any)?.headers?.authorization.split(' ')[1];
     this.method = request.method;
     this.baseUrl = request.baseUrl;
     this.originalUrl = request.originalUrl;
