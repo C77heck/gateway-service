@@ -11,22 +11,24 @@ export const userController = async (req: express.Request, res: express.Response
     const { originalUrl, method } = new ReqObject(req);
 
     validate(originalUrl, method, userHandler, res);
-
     req.pipe(request({
       method: req.method,
       headers: req.headers,
       host: 'localhost',
       port: 3033,
       path: originalUrl,
-    })
-      .on('error', (error) => console.log({ error }))
+    }))
+      .on('error', (error) => console.log('error'))
+      .on('finish', () => console.log('finish'))
       .on('response', (response) => {
         console.log('we are hitting it');
         res.writeHead((response as any)?.statusCode || 200, response.headers);
 
         response.pipe(res);
       });
+
   } catch (e) {
+    console.log(e);
     return next(new HttpError(ERROR_MESSAGES.GENERIC));
   }
 };
