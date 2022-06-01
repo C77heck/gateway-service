@@ -16,13 +16,16 @@ export const userController = async (req: express.Request, res: express.Response
       method: req.method,
       headers: req.headers,
       host: 'localhost',
-      port: 3032,
+      port: 3033,
       path: originalUrl,
-    })).on('response', (response) => {
-      res.writeHead((response as any)?.statusCode || 200, response.headers);
+    })
+      .on('error', (error) => console.log({ error }))
+      .on('response', (response) => {
+        console.log('we are hitting it');
+        res.writeHead((response as any)?.statusCode || 200, response.headers);
 
-      response.pipe(res);
-    });
+        response.pipe(res);
+      });
   } catch (e) {
     return next(new HttpError(ERROR_MESSAGES.GENERIC));
   }

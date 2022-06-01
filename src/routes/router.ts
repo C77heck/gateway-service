@@ -6,7 +6,7 @@ import userRoutes from './user.routes';
 const baseRouter = Router();
 
 baseRouter.use('/attachments', attachmentRoutes);
-baseRouter.use('/user', userRoutes);
+baseRouter.use('/users', userRoutes);
 baseRouter.use('/api', apiRoutes);
 
 // Export default.
