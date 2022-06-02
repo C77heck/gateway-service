@@ -3,7 +3,7 @@ import { HandlerInterface } from './handler.interface';
 export const userHandler: HandlerInterface[] = [
   {
     url: '/api/users/authenticate',
-    method: 'OPTIONS',
+    method: 'GET',
     params: false,
     authorized: false
   },

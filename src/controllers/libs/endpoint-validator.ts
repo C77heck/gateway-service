@@ -12,8 +12,8 @@ export const validate = async (baseUrl: string, method: string, attachmentHandle
   let isValid = !!route;
 
   if (route && route.authorized) {
-    isValid = await Repository.authenticate(`${token}`, {});
+    isValid = await Repository.authenticate(`${token}`);
   }
-
-  return isValid ? null : res.end();
+  console.log({ isValid });
+  return isValid ? null : null; // res.end();
 };
