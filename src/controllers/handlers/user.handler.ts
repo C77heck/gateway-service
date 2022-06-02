@@ -11,7 +11,7 @@ export const userHandler: HandlerInterface[] = [
     url: '/api/users/login',
     method: 'POST',
     params: false,
-    authorized: true // TODO WRONG...
+    authorized: false
   },
   {
     url: '/api/users/signup',
