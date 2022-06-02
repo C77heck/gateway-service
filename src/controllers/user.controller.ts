@@ -12,7 +12,7 @@ export const userController = async (req: express.Request, res: express.Response
 
     const headers = { ...req.headers, 'Content-Type': 'application/json' };
 
-    validate(originalUrl, method, userHandler, token);
+    await validate(originalUrl, method, userHandler, token);
 
     req.pipe(request({
       method: req.method,

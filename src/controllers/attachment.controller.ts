@@ -10,8 +10,8 @@ export const attachmentController = async (req: express.Request, res: express.Re
   try {
     const { originalUrl, method } = new ReqObject(req);
 
-    validate(originalUrl, method, attachmentHandler, res);
-    
+    await validate(originalUrl, method, attachmentHandler);
+
     req.pipe(request({
       method: req.method,
       headers: req.headers,
